@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmanuel Rodríguez | People Analytics, SQL, PostgreSQL, BI & Python</title>
+    <meta name="description"
+        content="Portafolio profesional de Emmanuel Rodríguez Mendoza. Especialista en People & Data Analytics, consultas avanzadas con SQL y PostgreSQL, Power BI, DAX financiero y automatización de software con Python.">
+    <meta name="author" content="Emmanuel Rodríguez Mendoza">
+
+    <!-- Open Graph / LinkedIn / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rodriguezmendozaemmanuel5.github.io/">
+    <meta property="og:title" content="Emmanuel Rodríguez | People Analytics, SQL & Python Automation">
+    <meta property="og:description"
+        content="Consultas SQL y PostgreSQL, modelado Kimball, analítica de P&L en Power BI (DAX) y automatización de procesos con Python.">
+    <meta property="og:image" content="assets/dashboard_01_hr_overview.png">
+
+    <!-- Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            950: '#070B12',
+                            900: '#0D1524',
+                            850: '#111B2E',
+                            800: '#1B2A44',
+                            700: '#2A3F63',
+                        },
+                        cyan: {
+                            450: '#00E5FF',
+                            500: '#06b6d4',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Estilos personalizados y utilidades de efectos */
+        .glass-panel {
+            background: rgba(13, 21, 36, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(17, 27, 46, 0.85) 0%, rgba(13, 21, 36, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px -12px rgba(6, 182, 212, 0.12);
+        }
+
+        .gradient-text-cyan {
+            background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 50%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-indigo {
+            background: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tab-btn.active {
+            background-color: rgba(6, 182, 212, 0.15);
+            border-color: rgba(6, 182, 212, 0.5);
+            color: #22d3ee;
+        }
+
+        .tab-btn-alt.active {
+            background-color: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: #a5b4fc;
+        }
+
+        /* Scrollbar discreto */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #070B12;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1B2A44;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- NAVBAR FLOTANTE -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded-lg bg-cyan-950 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-mono font-bold text-sm shadow-[0_0_15px_rgba(6,182,212,0.2)] group-hover:border-cyan-400 transition">
+                    ER
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-white tracking-tight group-hover:text-cyan-300 transition">Emmanuel Rodríguez</span>
+                    <span class="text-[11px] text-slate-400 font-mono">SQL & BI | Python</span>
+                </div>
+            </a>
+
+            <!-- Enlaces desktop -->
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+                <a href="#impacto" class="hover:text-cyan-400 transition">Impacto</a>
+                <a href="#proyecto-bi" class="hover:text-cyan-400 transition">People Analytics</a>
+                <a href="#proyecto-software" class="hover:text-cyan-400 transition">Automatización Python</a>
+                <a href="#habilidades" class="hover:text-cyan-400 transition">Stack Técnico</a>
+                <a href="#contacto" class="hover:text-cyan-400 transition">Contacto</a>
+            </div>
+
+            <!-- Botones de Acción en Navbar -->
+            <div class="flex items-center gap-3">
+                <a href="https://www.linkedin.com/in/emmanuel-rodríguez-mendoza-aa638a220" target="_blank"
+                    class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 border border-slate-700 hover:border-cyan-500 hover:text-cyan-300 transition">
+                    <i class="fab fa-linkedin text-cyan-400"></i> LinkedIn
+                </a>
+                <a href="#contacto"
+                    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)] transition">
+                    <i class="fas fa-paper-plane"></i> Contactar
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="hero" class="relative pt-32 pb-16 px-6 overflow-hidden">
+        <!-- Glows de fondo -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none"></div>
+        <div class="absolute top-1/3 left-1/4 w-[400px] h-[300px] bg-indigo-500/10 blur-[140px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="max-w-3xl space-y-6">
+                <!-- Badge de Estado -->
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs font-mono">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-slate-300">Disponible para proyectos estratégicos & roles técnicos</span>
+                </div>
+
+                <!-- Título y Rol -->
+                <div class="space-y-3">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                        Emmanuel Rodríguez Mendoza
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-semibold text-slate-300">
+                        Especialista en <span class="gradient-text-cyan">People & Data Analytics (SQL / BI)</span> y <span class="gradient-text-indigo">Automatización con Python</span>
+                    </p>
+                </div>
+
+                <!-- Resumen de Valor para Reclutadores -->
+                <p class="text-slate-400 text-base sm:text-lg leading-relaxed font-normal">
+                    Conecto el análisis cuantitativo y la extracción con <strong class="text-cyan-300 font-semibold">SQL y PostgreSQL</strong> con el impacto en estados financieros (<strong class="text-slate-200 font-semibold">P&L</strong>). Especialista en estructuración de datos bajo <strong class="text-cyan-300 font-semibold">Modelado Dimensional Kimball (SCD Tipo 2)</strong>, analítica prescriptiva en <strong class="text-cyan-300 font-semibold">Power BI (DAX Avanzado)</strong> y desarrollo de scripts backend en <strong class="text-indigo-300 font-semibold">Python</strong> para automatizar auditorías y flujos operacionales.
+                </p>
+
+                <!-- Badges de Stack Principal -->
+                <div class="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs">
+                    <span class="px-3 py-1.5 rounded-lg bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-semibold flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.15)]">
+                        <i class="fas fa-database text-cyan-400"></i> SQL / PostgreSQL
+                    </span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200 flex items-center gap-1.5">
+                        <i class="fas fa-chart-column text-yellow-400"></i> Power BI & DAX
+                    </span>
+                    <span class="px-3 py-1.5 rounded-lg bg-indigo-950/70 border border-indigo-500/40 text-indigo-300 font-semibold flex items-center gap-1.5">
+                        <i class="fab fa-python text-indigo-400"></i> Python Automation
+                    </span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 flex items-center gap-1.5">
+                        <i class="fas fa-layer-group text-slate-400"></i> Kimball Star Schema
+                    </span>
+                </div>
+
+                <!-- CTAs y Enlaces Sociales -->
+                <div class="flex flex-wrap items-center gap-4 pt-2">
+                    <a href="#proyectos"
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-sm shadow-[0_0_25px_rgba(6,182,212,0.25)] hover:shadow-[0_0_35px_rgba(6,182,212,0.4)] hover:brightness-110 transition">
+                        <i class="fas fa-chart-pie text-slate-950"></i> Ver Proyectos & Evidencias
+                    </a>
+                    <a href="https://github.com/rodriguezmendozaemmanuel5" target="_blank"
+                        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500 text-slate-200 text-sm font-semibold transition">
+                        <i class="fab fa-github text-lg text-white"></i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/emmanuel-rodríguez-mendoza-aa638a220" target="_blank"
+                        class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500 text-slate-200 text-sm font-semibold transition">
+                        <i class="fab fa-linkedin text-lg text-cyan-400"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- METRICS & IMPACT BANNER -->
+    <section id="impacto" class="max-w-6xl mx-auto px-6 py-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-cyan-500">
+                <div class="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-1">Población Analizada</div>
+                <div class="text-3xl font-extrabold text-white">4,500+</div>
+                <div class="text-xs text-slate-400 mt-1">Colaboradores modelados en granularidad analítica</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-emerald-500">
+                <div class="text-xs font-mono text-emerald-400 uppercase tracking-wider mb-1">Impacto en P&L</div>
+                <div class="text-3xl font-extrabold text-white">$6.44M</div>
+                <div class="text-xs text-slate-400 mt-1">USD en exposición de rotación y SLAs cuantificados</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-purple-500">
+                <div class="text-xs font-mono text-purple-400 uppercase tracking-wider mb-1">Simulación DAX</div>
+                <div class="text-3xl font-extrabold text-white">7,470%</div>
+                <div class="text-xs text-slate-400 mt-1">ROI dinámico proyectado con Payback de 0.2 años</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 border-l-4 border-l-indigo-500">
+                <div class="text-xs font-mono text-indigo-400 uppercase tracking-wider mb-1">Automatización Python</div>
+                <div class="text-3xl font-extrabold text-white">100%</div>
+                <div class="text-xs text-slate-400 mt-1">Generación de actas Word (.docx) y despacho de alertas</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main id="proyectos" class="max-w-6xl mx-auto px-6 py-12 space-y-24">
+
+        <!-- ========================================================================= -->
+        <!-- CASO DE ESTUDIO 1: WORKFORCE DYNAMIC LENS (DATA & BUSINESS INTELLIGENCE) -->
+        <!-- ========================================================================= -->
+        <section id="proyecto-bi" class="space-y-8">
+            <!-- Encabezado de Sección -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/80 text-cyan-400 border border-cyan-800 text-xs font-mono mb-2">
+                        <i class="fas fa-cube"></i> Enterprise End-to-End Suite | Business Intelligence
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                        Workforce Dynamic Lens
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">
+                        Suite analítica, prescriptiva y financiera de People Analytics con simulación en tiempo real.
+                    </p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="https://github.com/rodriguezmendozaemmanuel5/workforce-dynamic-lens" target="_blank"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 text-xs font-semibold transition">
+                        <i class="fab fa-github"></i> Repositorio & Documentación <i class="fas fa-external-link-alt text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contenedor Principal del Proyecto -->
+            <div class="glass-card rounded-2xl p-6 md:p-8 space-y-8">
+
+                <!-- Galería Interactiva con Tabs -->
+                <div class="space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div class="flex flex-wrap gap-2" id="tabs-wdl">
+                            <button onclick="switchTabWdl('tab-boardroom', this)"
+                                class="tab-btn active px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-slate-800 text-slate-300 hover:text-white transition flex items-center gap-2">
+                                <i class="fas fa-briefcase"></i> 1. Boardroom Overview (P&L)
+                            </button>
+                            <button onclick="switchTabWdl('tab-absenteeism', this)"
+                                class="tab-btn px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-slate-800 text-slate-300 hover:text-white transition flex items-center gap-2">
+                                <i class="fas fa-user-clock"></i> 2. HRBP Center & Bradford Factor
+                            </button>
+                            <button onclick="switchTabWdl('tab-whatif', this)"
+                                class="tab-btn px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-slate-800 text-slate-300 hover:text-white transition flex items-center gap-2">
+                                <i class="fas fa-sliders"></i> 3. Simulador Financiero What-If
+                            </button>
+                        </div>
+                        <span class="text-xs text-slate-400 font-mono hidden lg:inline-flex items-center gap-1">
+                            <i class="fas fa-search-plus text-cyan-400"></i> Haz clic en la imagen para ampliar en HD
+                        </span>
+                    </div>
+
+                    <!-- Vista 1: Boardroom Overview -->
+                    <div id="tab-boardroom" class="tab-pane-wdl block">
+                        <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                             onclick="openLightbox('assets/dashboard_01_hr_overview.png', 'Tablero Ejecutivo: Boardroom Overview — Control de Plantilla (3,300 Activos), Tasa de Rotación Voluntaria (12.5%), Costos de Desvinculación ($22M USD) y Penalizaciones SLA B2B.')">
+                            <img src="assets/dashboard_01_hr_overview.png" alt="Dashboard Boardroom Overview - Power BI"
+                                class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                                <span class="text-xs text-cyan-300 font-mono bg-slate-900/90 px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-2">
+                                    <i class="fas fa-expand"></i> Ampliar vista en pantalla completa
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2 font-mono">
+                            <strong class="text-cyan-400">Vista Ejecutiva C-Level:</strong> Análisis de fricción operativa, correlación causa raíz por departamento y exposición de $22M USD en costos de rotación y penalizaciones por incumplimiento de SLAs corporativos.
+                        </p>
+                    </div>
+
+                    <!-- Vista 2: HRBP Center & Bradford Factor -->
+                    <div id="tab-absenteeism" class="tab-pane-wdl hidden">
+                        <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                             onclick="openLightbox('assets/dashboard_02_absenteeism_diagnostic.png', 'Tablero Táctico: HRBP Center — Diagnóstico de Ausentismo (23k días, 15k instancias), Bradford Factor Score por empleado y análisis de equidad salarial (Compa-Ratio).')">
+                            <img src="assets/dashboard_02_absenteeism_diagnostic.png" alt="Dashboard Absenteeism Diagnostic - Power BI"
+                                class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                                <span class="text-xs text-cyan-300 font-mono bg-slate-900/90 px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-2">
+                                    <i class="fas fa-expand"></i> Ampliar vista en pantalla completa
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2 font-mono">
+                            <strong class="text-cyan-400">Diagnóstico Granular HRBP:</strong> Matriz de dispersión ausencias vs. instancias repetidas (Bradford Factor Score) y detección de 141 colaboradores bajo banda salarial de mercado (Compa-Ratio < 1.0).
+                        </p>
+                    </div>
+
+                    <!-- Vista 3: Simulador What-If -->
+                    <div id="tab-whatif" class="tab-pane-wdl hidden">
+                        <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                             onclick="openLightbox('assets/dashboard_03_workforce_risk.png', 'Tablero Prescriptivo: What-If Simulator — Simulación paramétrica en DAX con sliders de Reducción de Rotación, Reducción de SLA e Inversión USD, cuantificando ROI y Payback.')">
+                            <img src="assets/dashboard_03_workforce_risk.png" alt="Dashboard What-If Simulator - Power BI"
+                                class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                                <span class="text-xs text-cyan-300 font-mono bg-slate-900/90 px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-2">
+                                    <i class="fas fa-expand"></i> Ampliar vista en pantalla completa
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2 font-mono">
+                            <strong class="text-cyan-400">Simulador Prescriptivo en Tiempo Real:</strong> Parámetros desconectados en DAX que calculan Ahorro Bruto ($6.44M), Beneficio Neto ($6.35M), ROI dinámico y período de recuperación de capital (0.2 años).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Desglose Técnico: SQL, Modelado y DAX -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-800/80">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-cyan-400 text-sm font-bold">
+                            <i class="fas fa-database"></i> Consultas SQL & Modelado en PostgreSQL
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Diseño de esquema relacional en estrella (Kimball) con tablas de hechos (<code class="text-cyan-300">Fact_Attendance_Logs</code>, <code class="text-cyan-300">Fact_Sla_Events</code>, <code class="text-cyan-300">Fact_Terminations</code>) y dimensiones conformadas estructuradas en PostgreSQL.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-indigo-400 text-sm font-bold">
+                            <i class="fas fa-history"></i> Gestión Histórica SCD Tipo 2
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Control granular de vigencias y transiciones de roles/departamentos a lo largo del tiempo, garantizando auditoría fidedigna de cambios organizacionales sin pérdida de contexto histórico.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-emerald-400 text-sm font-bold">
+                            <i class="fas fa-calculator"></i> DAX Avanzado & P&L
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Modelado matemático de métricas complejas: Bradford Factor cuadrático, Compa-Ratio de compensación salarial, amortización de penalizaciones de SLA y análisis financiero What-If.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Stack Tags -->
+                <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-800/60">
+                    <span class="px-2.5 py-1 bg-slate-950 text-cyan-300 text-xs rounded-md border border-cyan-500/40 font-mono font-semibold">SQL</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-cyan-300 text-xs rounded-md border border-cyan-500/40 font-mono font-semibold">PostgreSQL</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-slate-300 text-xs rounded-md border border-slate-800 font-mono">Kimball Star Schema</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-slate-300 text-xs rounded-md border border-slate-800 font-mono">SCD Tipo 2</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-yellow-300 text-xs rounded-md border border-yellow-900/40 font-mono">Power BI (DAX)</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-emerald-300 text-xs rounded-md border border-emerald-950/60 font-mono">What-If Analysis</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-slate-300 text-xs rounded-md border border-slate-800 font-mono">People Analytics</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-indigo-300 text-xs rounded-md border border-indigo-950/60 font-mono">Python ETL</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================================================= -->
+        <!-- CASO DE ESTUDIO 2: IPS AUDIT & COMPLIANCE AUTOMATOR (PYTHON & HEALTHCARE) -->
+        <!-- ========================================================================= -->
+        <section id="proyecto-software" class="space-y-8">
+            <!-- Encabezado de Sección -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-indigo-950/80 text-indigo-400 border border-indigo-800 text-xs font-mono mb-2">
+                        <i class="fas fa-terminal"></i> Software Engineering & Process Automation (ADSO)
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                        Sistema Automatizado de Auditoría & Notificación para IPS
+                    </h2>
+                    <p class="text-slate-400 text-sm mt-1">
+                        Pipeline en Python para auditoría normativa (Resolución 3100), generación dinámica de actas Word (.docx) y despacho de alertas gerenciales por correo.
+                    </p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="https://github.com/rodriguezmendozaemmanuel5/IPS_Smart_Audit_-_Compliance_Bot" target="_blank"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/20 text-xs font-semibold transition">
+                        <i class="fab fa-github"></i> Ver Código & Módulos <i class="fas fa-external-link-alt text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contenedor Principal del Proyecto -->
+            <div class="glass-card rounded-2xl p-6 md:p-8 space-y-8">
+
+                <!-- Galería Interactiva con Tabs -->
+                <div class="space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div class="flex flex-wrap gap-2" id="tabs-ips">
+                            <button onclick="switchTabIps('tab-sheets', this)"
+                                class="tab-btn-alt active px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-slate-800 text-slate-300 hover:text-white transition flex items-center gap-2">
+                                <i class="fas fa-table"></i> 1. Modelo de Datos & Matriz Res. 3100
+                            </button>
+                            <button onclick="switchTabIps('tab-docx', this)"
+                                class="tab-btn-alt px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-slate-800 text-slate-300 hover:text-white transition flex items-center gap-2">
+                                <i class="fas fa-file-word"></i> 2. Generador de Actas Word (.docx)
+                            </button>
+                            <button onclick="switchTabIps('tab-mail', this)"
+                                class="tab-btn-alt px-3.5 py-2 rounded-lg text-xs font-mono font-semibold border border-slate-800 text-slate-300 hover:text-white transition flex items-center gap-2">
+                                <i class="fas fa-envelope"></i> 3. Despacho de Correo HTML (SMTP)
+                            </button>
+                        </div>
+                        <span class="text-xs text-slate-400 font-mono hidden lg:inline-flex items-center gap-1">
+                            <i class="fas fa-search-plus text-indigo-400"></i> Haz clic en la captura para ampliar en HD
+                        </span>
+                    </div>
+
+                    <!-- Vista 1: Modelo de Datos Sheets / Matriz Res. 3100 -->
+                    <div id="tab-sheets" class="tab-pane-ips block space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                                 onclick="openLightbox('assets/db_modelo_sheets.png', 'Sistema_Control_IPS_v1.0 — Base relacional de colaboradores, validación de antecedentes, contratos, exámenes médicos y vigencias.')">
+                                <img src="assets/db_modelo_sheets.png" alt="Base de datos y vigencias" class="w-full h-44 object-cover object-top group-hover:scale-[1.03] transition">
+                                <div class="p-2 bg-slate-900/90 text-[11px] font-mono text-slate-300 border-t border-slate-800 flex items-center justify-between">
+                                    <span>Control Personal & Vigencias</span>
+                                    <i class="fas fa-expand text-indigo-400"></i>
+                                </div>
+                            </div>
+                            <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                                 onclick="openLightbox('assets/db_modelo_sheets2.png', 'Matriz Resolución 3100 — Estándares de Habilitación: Talento Humano, Comités Obligatorios, Dotación, Medicamentos, Historias Clínicas.')">
+                                <img src="assets/db_modelo_sheets2.png" alt="Matriz Resolución 3100" class="w-full h-44 object-cover object-top group-hover:scale-[1.03] transition">
+                                <div class="p-2 bg-slate-900/90 text-[11px] font-mono text-slate-300 border-t border-slate-800 flex items-center justify-between">
+                                    <span>Matriz Normativa Res. 3100</span>
+                                    <i class="fas fa-expand text-indigo-400"></i>
+                                </div>
+                            </div>
+                            <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                                 onclick="openLightbox('assets/db_modelo_sheets3.png', 'Auditoría de Historias Clínicas — Indicadores mensuales de cumplimiento y hallazgos asistenciales.')">
+                                <img src="assets/db_modelo_sheets3.png" alt="Auditoría de Historias Clínicas" class="w-full h-44 object-cover object-top group-hover:scale-[1.03] transition">
+                                <div class="p-2 bg-slate-900/90 text-[11px] font-mono text-slate-300 border-t border-slate-800 flex items-center justify-between">
+                                    <span>Auditoría Historias Clínicas</span>
+                                    <i class="fas fa-expand text-indigo-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 font-mono">
+                            <strong class="text-indigo-400">Capa de Ingesta & Reglas de Negocio:</strong> Estructura relacional automatizada para monitorear el personal asistencial y administrativo bajo los estándares obligatorios de habilitación en salud (Resolución 3100).
+                        </p>
+                    </div>
+
+                    <!-- Vista 2: Generador de Actas Word (.docx) -->
+                    <div id="tab-docx" class="tab-pane-ips hidden">
+                        <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                             onclick="openLightbox('assets/acta_word_dashboard.png', 'Acta Oficial de Auditoría generada programáticamente en Python (.docx) con fecha, corte automatizado, estado del sistema y detalle de estándares normativos.')">
+                            <img src="assets/acta_word_dashboard.png" alt="Acta Oficial Word generada en Python"
+                                class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                                <span class="text-xs text-indigo-300 font-mono bg-slate-900/90 px-3 py-1.5 rounded-lg border border-indigo-500/30 flex items-center gap-2">
+                                    <i class="fas fa-expand"></i> Ampliar vista en pantalla completa
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2 font-mono">
+                            <strong class="text-indigo-400">Motor de Renderizado Documental (.docx):</strong> Script en Python que compila métricas, detecta funcionarios con requerimientos vencidos y construye el acta gerencial con tipografía corporativa y tablas estructuradas.
+                        </p>
+                    </div>
+
+                    <!-- Vista 3: Despacho de Correo HTML -->
+                    <div id="tab-mail" class="tab-pane-ips hidden">
+                        <div class="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer"
+                             onclick="openLightbox('assets/correo_notificacion_html.png', 'Notificación Ejecutiva Automatizada por Correo — Plantilla HTML responsive con resumen diario de auditoría y documento Acta Oficial adjunto de forma programática.')">
+                            <img src="assets/correo_notificacion_html.png" alt="Reporte Diario Automatizado por Correo"
+                                class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                                <span class="text-xs text-indigo-300 font-mono bg-slate-900/90 px-3 py-1.5 rounded-lg border border-indigo-500/30 flex items-center gap-2">
+                                    <i class="fas fa-expand"></i> Ampliar vista en pantalla completa
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-2 font-mono">
+                            <strong class="text-indigo-400">Pipeline de Notificación Asíncrona (SMTP):</strong> Despacho automático de correos gerenciales formateados en HTML con el archivo oficial adjunto, garantizando trazabilidad y cero esfuerzo manual.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Flujo de Procesamiento y Módulos en Python -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-800/80">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-indigo-400 text-sm font-bold">
+                            <i class="fas fa-code-branch"></i> Ingesta y Limpieza con Pandas
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Módulo de lectura de planillas institucionales, validación cruzada de cédulas, fechas de vencimiento de habilitaciones y detección de inconsistencias lógicas.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-cyan-400 text-sm font-bold">
+                            <i class="fas fa-file-invoice"></i> Generación Dinámica con python-docx
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Inyección de datos calculados dentro de plantillas formales de auditoría, formateo condicional de estados críticos y estructuración de tablas gerenciales.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-purple-400 text-sm font-bold">
+                            <i class="fas fa-paper-plane"></i> Distribución SMTP & Manejo de Errores
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Empaquetado MIME multipart con cuerpo en HTML responsive, adjuntos dinámicos autenticados y logging de ejecución para trazabilidad en producción.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Stack Tags -->
+                <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-800/60">
+                    <span class="px-2.5 py-1 bg-slate-950 text-indigo-300 text-xs rounded-md border border-indigo-950/60 font-mono">Python 3.x</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-slate-300 text-xs rounded-md border border-slate-800 font-mono">Pandas</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-slate-300 text-xs rounded-md border border-slate-800 font-mono">OpenPyXL</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-cyan-300 text-xs rounded-md border border-cyan-950/60 font-mono">python-docx</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-slate-300 text-xs rounded-md border border-slate-800 font-mono">SMTP Automation</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-emerald-300 text-xs rounded-md border border-emerald-950/60 font-mono">Normativa Res. 3100</span>
+                    <span class="px-2.5 py-1 bg-slate-950 text-slate-300 text-xs rounded-md border border-slate-800 font-mono">ETL & Data Quality</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================================================= -->
+        <!-- SECCIÓN: STACK TÉCNICO & MATRIZ DE COMPETENCIAS -->
+        <!-- ========================================================================= -->
+        <section id="habilidades" class="space-y-8">
+            <div class="border-b border-slate-800/80 pb-4">
+                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">Habilidades Comprobadas</span>
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">Competencias Técnicas & Metodologías</h2>
+                <p class="text-slate-400 text-sm mt-1">Ecosistema tecnológico enfocado en análisis de datos, consultas SQL y automatización.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Tarjeta 1: SQL, Data Analytics & BI -->
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-lg">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">SQL & Business Intelligence</h3>
+                    <ul class="space-y-2.5 text-xs text-slate-300 font-mono">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> <strong class="text-cyan-300">SQL & PostgreSQL:</strong> Joins, Agregaciones, Vistas, DDL/DML</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Power BI (Modelado de Datos & DAX Avanzado)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Modelado Dimensional Kimball (Star Schema)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Slowly Changing Dimensions (SCD Tipo 2)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400 text-[10px]"></i> Parámetros & Simulación What-If</li>
+                    </ul>
+                </div>
+
+                <!-- Tarjeta 2: Software & Python Backend -->
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-950/80 border border-indigo-800 flex items-center justify-center text-indigo-400 text-lg">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Software & Automatización</h3>
+                    <ul class="space-y-2.5 text-xs text-slate-300 font-mono">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Python 3.x (Programación Modular & OOP)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Pandas, OpenPyXL (ETL & Transformación)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> python-docx (Generación de Reportes)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Automatización de Correo SMTP & HTML</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-indigo-400 text-[10px]"></i> Git & GitHub Version Control</li>
+                    </ul>
+                </div>
+
+                <!-- Tarjeta 3: Negocio & Dominio Especializado -->
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-950/80 border border-emerald-800 flex items-center justify-center text-emerald-400 text-lg">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Negocio & People Analytics</h3>
+                    <ul class="space-y-2.5 text-xs text-slate-300 font-mono">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400 text-[10px]"></i> Cuantificación Financiera de P&L & Retención</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400 text-[10px]"></i> Bradford Factor & Diagnóstico de Ausentismo</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400 text-[10px]"></i> Equidad Salarial & Compa-Ratio</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400 text-[10px]"></i> Habilitación en Salud (Norma Res. 3100)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-400 text-[10px]"></i> Análisis y Desarrollo de Software (ADSO)</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ========================================================================= -->
+        <!-- SECCIÓN: SOBRE MÍ / PROPUESTA DE VALOR PARA RECLUTADORES -->
+        <!-- ========================================================================= -->
+        <section id="sobre-mi" class="glass-card rounded-2xl p-8 md:p-10 space-y-6">
+            <div class="max-w-3xl space-y-4">
+                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">Perfil Profesional</span>
+                <h2 class="text-3xl font-extrabold text-white tracking-tight">
+                    ¿Por qué mi perfil destaca ante equipos de datos y tecnología?
+                </h2>
+                <div class="text-slate-300 text-sm sm:text-base leading-relaxed space-y-3 font-normal">
+                    <p>
+                        A menudo existe una brecha entre los profesionales que dominan el código y aquellos que entienden los dolores reales del negocio y sus estados financieros. Mi propuesta de valor radica precisamente en <strong>cerrar esa brecha</strong>:
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1.5">
+                            <div class="text-cyan-400 font-bold text-sm flex items-center gap-2">
+                                <i class="fas fa-chart-pie"></i> Pensamiento Cuantitativo & P&L
+                            </div>
+                            <p class="text-xs text-slate-400">
+                                No diseño tableros vacíos: construyo modelos analíticos que demuestran ahorros reales en millones de dólares, optimización de nómina y retorno de inversión claro para directores y vicepresidencias.
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1.5">
+                            <div class="text-indigo-400 font-bold text-sm flex items-center gap-2">
+                                <i class="fas fa-cogs"></i> Capacidad Técnica Práctica
+                            </div>
+                            <p class="text-xs text-slate-400">
+                                Aplico consultas en SQL y PostgreSQL para extraer y estructurar datos, desarrollo scripts en Python para validaciones y automatizaciones operativas, y diseño tableros ejecutivos en Power BI que respaldan decisiones de negocio estratégicas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================================================= -->
+        <!-- SECCIÓN DE CONTACTO & ACCIÓN -->
+        <!-- ========================================================================= -->
+        <section id="contacto" class="text-center space-y-6 py-8">
+            <div class="max-w-2xl mx-auto space-y-3">
+                <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">Iniciemos Conversación</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                    ¿Conversamos sobre cómo aportar valor a tu equipo?
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base">
+                    Estoy abierto a entrevistas técnicas, oportunidades laborales y proyectos de consultoría en People Analytics, Business Intelligence y Automatización con Python.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-2">
+                <a href="mailto:rodriguezmendozaemmanuel5@gmail.com"
+                    class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm shadow-[0_0_30px_rgba(6,182,212,0.3)] transition">
+                    <i class="fas fa-envelope text-slate-950"></i> Enviar Correo Electrónico
+                </a>
+                <a href="https://www.linkedin.com/in/emmanuel-rodríguez-mendoza-aa638a220" target="_blank"
+                    class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500 text-slate-200 text-sm font-semibold transition">
+                    <i class="fab fa-linkedin text-cyan-400"></i> Conectar en LinkedIn
+                </a>
+                <a href="https://github.com/rodriguezmendozaemmanuel5" target="_blank"
+                    class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500 text-slate-200 text-sm font-semibold transition">
+                    <i class="fab fa-github text-white"></i> Explorar GitHub
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="max-w-6xl mx-auto border-t border-slate-800/80 py-10 px-6 text-center text-slate-500 text-xs space-y-2">
+        <p>© 2026 Emmanuel Rodríguez Mendoza. Portafolio técnico desplegado en GitHub Pages.</p>
+        <p class="font-mono text-[11px] text-slate-600">Construido con HTML5 semántico, Tailwind CSS y JavaScript interactivo.</p>
+    </footer>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL LIGHTBOX (ZOOM EN PANTALLA COMPLETA) -->
+    <!-- ========================================================================= -->
+    <div id="lightbox-modal"
+         class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4 md:p-8"
+         onclick="closeLightboxOnBackdrop(event)">
+        <div class="relative max-w-6xl w-full max-h-[95vh] flex flex-col items-center">
+            <!-- Botón Cerrar -->
+            <button onclick="closeLightbox()"
+                    class="absolute -top-12 right-0 md:-right-4 text-slate-400 hover:text-white bg-slate-900/80 border border-slate-700 rounded-full w-10 h-10 flex items-center justify-center transition">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+
+            <!-- Imagen en Alta Definición -->
+            <div class="w-full overflow-auto rounded-xl border border-slate-800 bg-slate-900/80 shadow-2xl flex items-center justify-center p-2">
+                <img id="lightbox-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Vista ampliada" class="max-h-[80vh] w-auto object-contain rounded-lg">
+            </div>
+
+            <!-- Leyenda explicativa -->
+            <div id="lightbox-caption" class="mt-3 text-center text-xs md:text-sm text-slate-300 font-mono max-w-3xl px-4 py-2 rounded-lg bg-slate-900/90 border border-slate-800">
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT NATIVO: CONTROL DE PESTAÑAS Y LIGHTBOX -->
+    <script>
+        // Control de Tabs para Workforce Dynamic Lens
+        function switchTabWdl(tabId, btn) {
+            document.querySelectorAll('.tab-pane-wdl').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('#tabs-wdl .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Control de Tabs para Sistema IPS
+        function switchTabIps(tabId, btn) {
+            document.querySelectorAll('.tab-pane-ips').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('#tabs-ips .tab-btn-alt').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Control de Lightbox Modal
+        const lightbox = document.getElementById('lightbox-modal');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        function openLightbox(imgSrc, captionText) {
+            lightboxImg.src = imgSrc;
+            lightboxCaption.textContent = captionText;
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('hidden');
+            lightbox.classList.remove('flex');
+            lightboxImg.src = '';
+            lightboxCaption.textContent = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeLightboxOnBackdrop(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        }
+
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+
+</html>
